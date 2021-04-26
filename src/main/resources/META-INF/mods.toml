@@ -1,0 +1,21 @@
+modLoader="javafml"
+loaderVersion="[35,)" #mandatory
+license="All rights reserved"
+issueTrackerURL="https://github.com/Epidra/Lucky77/issues"
+[[mods]]
+modId="lucky77"
+version="v01"
+displayName="Lucky77"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/lucky77"
+logoFile="logo.png"
+credits="Thanks for this example mod goes to Java" #optional
+authors="Love, Cheese and small house plants" #optional
+description='''
+Lorem Ipsum
+'''
+[[dependencies.acecraft]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.4]"
+    ordering="NONE"
+    side="BOTH"
