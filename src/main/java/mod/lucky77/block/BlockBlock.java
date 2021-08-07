@@ -1,13 +1,13 @@
-package mod.lucky77.blocks;
+package mod.lucky77.block;
 
-import mod.lucky77.tileentities.TileBase;
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import mod.lucky77.blockentity.BlockEntityBase;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 
 public class BlockBlock extends BlockBase {
 
@@ -40,7 +40,7 @@ public class BlockBlock extends BlockBase {
 
     //----------------------------------------INTERACTION----------------------------------------//
 
-    public void interact(World world, BlockPos pos, PlayerEntity player, TileBase tile){
+    public void interact(Level world, BlockPos pos, Player player, BlockEntityBase tile){
 
     }
 

@@ -1,24 +1,24 @@
-package mod.lucky77.blocks;
+package mod.lucky77.block;
 
-import mod.lucky77.tileentities.TileBase;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import mod.lucky77.blockentity.BlockEntityBase;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.BlockHitResult;
 
 import javax.annotation.Nullable;
 
@@ -43,12 +43,12 @@ public abstract class MachinaWide extends BlockBase {
 
     //----------------------------------------PLACEMENT----------------------------------------//
 
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
         return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     /** Called by ItemBlocks after a block is set in the world, to allow post-place logic */
-    public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+    public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         worldIn.setBlock(pos, state.setValue(FACING, placer.getMotionDirection().getOpposite()).setValue(OFFSET, true), 2);
         if(placer.getMotionDirection().getOpposite() == Direction.NORTH) {
             if(worldIn.isEmptyBlock(pos.west())) {
@@ -80,12 +80,12 @@ public abstract class MachinaWide extends BlockBase {
         }
     }
 
-    public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
         if(newState.getBlock() == Blocks.AIR){
             boolean isPrimary = state.getValue(OFFSET);
             Direction enumfacing = state.getValue(FACING);
             final BlockPos pos2 = getTilePosition(pos, isPrimary, Direction.DOWN);
-            spawnInventory(worldIn, pos2, (TileBase) worldIn.getBlockEntity(pos));
+            spawnInventory(worldIn, pos2, (BlockEntityBase) worldIn.getBlockEntity(pos));
             if(!isPrimary) enumfacing = enumfacing.getOpposite();
             if(enumfacing == Direction.NORTH) worldIn.destroyBlock(pos.west(),  false);
             if(enumfacing == Direction.SOUTH) worldIn.destroyBlock(pos.east(),  false);
@@ -101,11 +101,11 @@ public abstract class MachinaWide extends BlockBase {
     //----------------------------------------INTERACTION----------------------------------------//
 
     @Override
-    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (!world.isClientSide() && player instanceof ServerPlayerEntity) {
-            interact(world, getTilePosition(pos, state.getValue(OFFSET), state.getValue(FACING)), player, (TileBase) world.getBlockEntity(getTilePosition(pos, state.getValue(OFFSET), state.getValue(FACING))));
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+        if (!world.isClientSide() && player instanceof ServerPlayer) {
+            interact(world, getTilePosition(pos, state.getValue(OFFSET), state.getValue(FACING)), player, (BlockEntityBase) world.getBlockEntity(getTilePosition(pos, state.getValue(OFFSET), state.getValue(FACING))));
         }
-        return ActionResultType.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
 
@@ -121,12 +121,12 @@ public abstract class MachinaWide extends BlockBase {
         return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
     }
 
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, OFFSET);
     }
 
     @Deprecated
-    public boolean canSurvive(BlockState state, IWorldReader world, BlockPos pos) {
+    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
         boolean isPrimary = state.getValue(OFFSET);
         Direction enumfacing = state.getValue(FACING);
         //if(!isPrimary) enumfacing = enumfacing.getOpposite();
@@ -144,13 +144,13 @@ public abstract class MachinaWide extends BlockBase {
 
     //----------------------------------------GETTER/SETTER----------------------------------------//
 
-    @Override
-    public boolean hasTileEntity(BlockState state) {
-        return state.getValue(OFFSET);
-    }
+    //@Override
+    //public boolean hasTileEntity(BlockState state) {
+    //    return state.getValue(OFFSET);
+    //}
 
-    public BlockRenderType getRenderShape(BlockState state) {
-        return BlockRenderType.MODEL;
+    public RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
     }
 
 }

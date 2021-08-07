@@ -1,4 +1,4 @@
-package mod.lucky77.util;
+package mod.lucky77.logic;
 
 public class LogicBase {
 

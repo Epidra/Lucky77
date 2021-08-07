@@ -1,22 +1,20 @@
-package mod.lucky77.tileentities;
+package mod.lucky77.blockentity;
 
-import mod.lucky77.container.ContainerBase;
-import mod.lucky77.util.LogicBase;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.ITextComponent;
+import mod.lucky77.logic.LogicBase;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.Container;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 
-public abstract class TileBase<T extends LogicBase> extends TileEntity implements ITickableTileEntity, IInventory {
+public abstract class BlockEntityBase<T extends LogicBase> extends BlockEntity implements Container {
 
     protected NonNullList<ItemStack> inventory;
     public T logic;
@@ -26,12 +24,12 @@ public abstract class TileBase<T extends LogicBase> extends TileEntity implement
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public TileBase(TileEntityType<?> tileEntityTypeIn, int inventorySize) {
-        this(tileEntityTypeIn, inventorySize, (T)new LogicBase());
+    public BlockEntityBase(BlockEntityType<?> tileEntityTypeIn, BlockPos blockpos, BlockState blockstate, int inventorySize) {
+        this(tileEntityTypeIn, blockpos, blockstate, inventorySize, (T)new LogicBase());
     }
 
-    public TileBase(TileEntityType<?> tileEntityTypeIn, int inventorySize, T logic) {
-        super(tileEntityTypeIn);
+    public BlockEntityBase(BlockEntityType<?> tileEntityTypeIn, BlockPos blockpos, BlockState blockstate, int inventorySize, T logic) {
+        super(tileEntityTypeIn, blockpos, blockstate);
         inventory = NonNullList.withSize(inventorySize, ItemStack.EMPTY);
         this.logic = logic;
     }
@@ -55,12 +53,12 @@ public abstract class TileBase<T extends LogicBase> extends TileEntity implement
 
     @Override
     public ItemStack removeItem(int val1, int val2) {
-        return ItemStackHelper.removeItem(this.inventory, val1, val2);
+        return ContainerHelper.removeItem(this.inventory, val1, val2);
     }
 
     @Override
     public ItemStack removeItemNoUpdate(int slot) {
-        return ItemStackHelper.takeItem(this.inventory, slot);
+        return ContainerHelper.takeItem(this.inventory, slot);
     }
 
     @Override
@@ -101,18 +99,19 @@ public abstract class TileBase<T extends LogicBase> extends TileEntity implement
 
     //----------------------------------------NETWORK----------------------------------------//
 
-    /** Creates a tag containing the TileEntity information, used by vanilla to transmit from server to client */
+    /** Creates a tag containing the TileEntity information, used by vanilla to transmit from server to client
+     * @return*/
     @Override
-    public CompoundNBT getUpdateTag(){
-        CompoundNBT nbtTagCompound = new CompoundNBT();
+    public CompoundTag getUpdateTag(){
+        CompoundTag nbtTagCompound = new CompoundTag();
         save(nbtTagCompound);
         return nbtTagCompound;
     }
 
     /** Populates this TileEntity with information from the tag, used by vanilla to transmit from server to client */
     @Override
-    public void handleUpdateTag(BlockState state, CompoundNBT tag){
-        this.load(state, tag);
+    public void handleUpdateTag(CompoundTag tag){
+        this.load(tag);
     }
 
 
@@ -120,16 +119,16 @@ public abstract class TileBase<T extends LogicBase> extends TileEntity implement
 
     //----------------------------------------READ/WRITE----------------------------------------//
 
-    public void load(BlockState state, CompoundNBT nbt){
-        super.load(state, nbt);
+    public void load(CompoundTag nbt){
+        super.load(nbt);
 
         this.inventory = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
-        ItemStackHelper.loadAllItems(nbt, this.inventory);
+        ContainerHelper.loadAllItems(nbt, this.inventory);
     }
 
-    public CompoundNBT save(CompoundNBT compound){
+    public CompoundTag save(CompoundTag compound){
         super.save(compound);
-        ItemStackHelper.saveAllItems(compound, this.inventory);
+        ContainerHelper.saveAllItems(compound, this.inventory);
         return compound;
     }
 
@@ -155,7 +154,7 @@ public abstract class TileBase<T extends LogicBase> extends TileEntity implement
     }
 
     @Override
-    public boolean stillValid(PlayerEntity player) {
+    public boolean stillValid(Player player) {
         if (this.level.getBlockEntity(this.worldPosition) != this) {
             return false;
         } else {
@@ -168,9 +167,9 @@ public abstract class TileBase<T extends LogicBase> extends TileEntity implement
         this.inventory.clear();
     }
 
-    public abstract IIntArray getIntArray();
+    public abstract ContainerData getIntArray();
 
-    public abstract ITextComponent getName();
+    public abstract TextComponent getName();
 
 
 }

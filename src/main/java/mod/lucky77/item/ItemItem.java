@@ -1,7 +1,7 @@
-package mod.lucky77.items;
+package mod.lucky77.item;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 
 public class ItemItem extends Item {
 
@@ -13,7 +13,7 @@ public class ItemItem extends Item {
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Default Constructor */
-    public ItemItem(ItemGroup group){
+    public ItemItem(CreativeModeTab group){
         super(new Properties().tab(group));
     }
 

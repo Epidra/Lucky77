@@ -1,15 +1,16 @@
 package mod.lucky77.screen;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import mod.lucky77.container.ContainerBase;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
+import com.mojang.blaze3d.vertex.PoseStack;
+import mod.lucky77.menu.MenuBase;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class ScreenBase<T extends ContainerBase> extends ContainerScreen<T>  {
+public abstract class ScreenBase<T extends MenuBase> extends AbstractContainerScreen<T> {
 
     // ...
 
@@ -18,7 +19,7 @@ public abstract class ScreenBase<T extends ContainerBase> extends ContainerScree
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public ScreenBase(T container, PlayerInventory player, ITextComponent name, int imageWidth, int imageHeight) {
+    public ScreenBase(T container, Inventory player, Component name, int imageWidth, int imageHeight) {
         super(container, player, name);
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
@@ -29,11 +30,11 @@ public abstract class ScreenBase<T extends ContainerBase> extends ContainerScree
         this.titleLabelX = (this.imageWidth - this.font.width(this.title)) / 2;
     }
 
-    public void tick() {
-        super.tick();
+    public void containerTick() {
+
     }
 
-    public void render(MatrixStack matrixStack, int mousePosX, int mousePosY, float partialTick) {
+    public void render(PoseStack matrixStack, int mousePosX, int mousePosY, float partialTick) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mousePosX, mousePosY, partialTick);
         this.renderTooltip(matrixStack, mousePosX, mousePosY);
