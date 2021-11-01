@@ -22,6 +22,7 @@ public abstract class BlockEntityBase<T extends LogicBase> extends BlockEntity i
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public BlockEntityBase(BlockEntityType<?> tileEntityTypeIn, BlockPos blockpos, BlockState blockstate, int inventorySize) {
@@ -37,9 +38,11 @@ public abstract class BlockEntityBase<T extends LogicBase> extends BlockEntity i
 
 
 
+
     //----------------------------------------UPDATE----------------------------------------//
 
     // ...
+
 
 
 
@@ -69,17 +72,12 @@ public abstract class BlockEntityBase<T extends LogicBase> extends BlockEntity i
         if (stack.getCount() > this.getMaxStackSize()) {
             stack.setCount(this.getMaxStackSize());
         }
-
-        //if (slot == 0 && !flag) {
-        //    this.cookingTotalTime = this.getTotalCookTime();
-        //    this.cookingProgress = 0;
-        //    this.setChanged();
-        //}
     }
 
     public boolean canPlaceItem(int slot, ItemStack stack) {
         return true;
     }
+
 
 
 
@@ -93,6 +91,7 @@ public abstract class BlockEntityBase<T extends LogicBase> extends BlockEntity i
     //    save(nbtTagCompound);
     //    return new SUpdateTileEntityPacket(this.worldPosition, ShopKeeper.TILE_FOUNDRY.get().hashCode(), nbtTagCompound);
     //}
+
 
 
 
@@ -117,6 +116,7 @@ public abstract class BlockEntityBase<T extends LogicBase> extends BlockEntity i
 
 
 
+
     //----------------------------------------READ/WRITE----------------------------------------//
 
     public void load(CompoundTag nbt){
@@ -131,6 +131,7 @@ public abstract class BlockEntityBase<T extends LogicBase> extends BlockEntity i
         ContainerHelper.saveAllItems(compound, this.inventory);
         return compound;
     }
+
 
 
 
@@ -170,6 +171,7 @@ public abstract class BlockEntityBase<T extends LogicBase> extends BlockEntity i
     public abstract ContainerData getIntArray();
 
     public abstract TextComponent getName();
+
 
 
 }

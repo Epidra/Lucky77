@@ -23,6 +23,7 @@ public abstract class MachinaCube extends BlockBase {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Contructor with predefined BlockProperty */
@@ -30,6 +31,7 @@ public abstract class MachinaCube extends BlockBase {
         super(block);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
+
 
 
 
@@ -51,6 +53,7 @@ public abstract class MachinaCube extends BlockBase {
 
 
 
+
     //----------------------------------------INTERACTION----------------------------------------//
 
     @Override
@@ -60,6 +63,7 @@ public abstract class MachinaCube extends BlockBase {
         }
         return InteractionResult.SUCCESS;
     }
+
 
 
 
@@ -78,18 +82,10 @@ public abstract class MachinaCube extends BlockBase {
         builder.add(FACING);
     }
 
-
-
-
-    //----------------------------------------GETTER/SETTER----------------------------------------//
-
-    //@Override
-    //public boolean hasTileEntity(BlockState state) {
-    //    return true;
-    //}
-
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
+
+
 
 }

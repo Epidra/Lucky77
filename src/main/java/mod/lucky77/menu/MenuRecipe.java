@@ -23,6 +23,7 @@ public abstract class MenuRecipe extends RecipeBookMenu<Container> {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public MenuRecipe(MenuType<?> type, int windowID, Inventory playerInventory, FriendlyByteBuf packetBuffer, RecipeType<? extends RecipeBase> recipeType) {
@@ -37,8 +38,6 @@ public abstract class MenuRecipe extends RecipeBookMenu<Container> {
     public MenuRecipe(MenuType<?> type, int windowID, Inventory playerInventory, BlockEntityBase tile, RecipeType<? extends RecipeBase> recipeType) {
         super(type, windowID);
         this.recipeType = recipeType;
-        //assertInventorySize(tile, 3);
-        //assertIntArraySize(tile.getIntArray(), 4);
         this.container = tile;
         this.level = playerInventory.player.level;
         this.data = tile.getIntArray();
@@ -48,15 +47,10 @@ public abstract class MenuRecipe extends RecipeBookMenu<Container> {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     protected abstract void createInventory(BlockEntityBase tile, Inventory playerInventory);
-
-    /** Determines whether supplied player can use this container */
-    //@Override
-    //public boolean canInteractWith(PlayerEntity playerIn) {
-    //    return inventory.isUsableByPlayer(playerIn);
-    //}
 
     /** Adds Slots from Player Inventory at the default Position **/
     protected void addPlayerSlots(Inventory playerInventory) {
@@ -81,21 +75,11 @@ public abstract class MenuRecipe extends RecipeBookMenu<Container> {
         }
     }
 
-
-
-
-    //----------------------------------------SUPPORT----------------------------------------//
-
-    // ...
-
-
-
-
-    //----------------------------------------GETTER/SETTER----------------------------------------//
-
     @Override
     public boolean stillValid(Player player) {
         return this.container.stillValid(player);
     }
+
+
 
 }

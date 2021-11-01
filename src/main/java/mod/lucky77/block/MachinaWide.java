@@ -30,6 +30,7 @@ public abstract class MachinaWide extends BlockBase {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Contructor with predefined BlockProperty */
@@ -37,6 +38,7 @@ public abstract class MachinaWide extends BlockBase {
         super(block);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(OFFSET, true));
     }
+
 
 
 
@@ -98,6 +100,7 @@ public abstract class MachinaWide extends BlockBase {
 
 
 
+
     //----------------------------------------INTERACTION----------------------------------------//
 
     @Override
@@ -107,6 +110,7 @@ public abstract class MachinaWide extends BlockBase {
         }
         return InteractionResult.SUCCESS;
     }
+
 
 
 
@@ -129,7 +133,6 @@ public abstract class MachinaWide extends BlockBase {
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
         boolean isPrimary = state.getValue(OFFSET);
         Direction enumfacing = state.getValue(FACING);
-        //if(!isPrimary) enumfacing = enumfacing.getOpposite();
         if(!isPrimary) return true;
         Block block = world.getBlockState(pos).getBlock();
         if(enumfacing == Direction.NORTH){ block = world.getBlockState(pos.west() ).getBlock(); }
@@ -139,18 +142,10 @@ public abstract class MachinaWide extends BlockBase {
         return block == Blocks.AIR || block == Blocks.CAVE_AIR || block == Blocks.VOID_AIR;
     }
 
-
-
-
-    //----------------------------------------GETTER/SETTER----------------------------------------//
-
-    //@Override
-    //public boolean hasTileEntity(BlockState state) {
-    //    return state.getValue(OFFSET);
-    //}
-
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
+
+
 
 }

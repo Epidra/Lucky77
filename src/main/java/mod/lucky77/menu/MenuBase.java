@@ -24,6 +24,7 @@ public abstract class MenuBase extends AbstractContainerMenu {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public MenuBase(MenuType<?> type, int windowID, Inventory playerInventory, FriendlyByteBuf packetBuffer) {
@@ -43,6 +44,7 @@ public abstract class MenuBase extends AbstractContainerMenu {
         this.logic = tile.logic;
         createInventory(tile, playerInventory);
     }
+
 
 
 
@@ -74,18 +76,6 @@ public abstract class MenuBase extends AbstractContainerMenu {
         }
     }
 
-
-
-
-    //----------------------------------------SUPPORT----------------------------------------//
-
-    // ...
-
-
-
-
-    //----------------------------------------GETTER/SETTER----------------------------------------//
-
     public LogicBase logicbase(){
         return logic;
     }
@@ -94,5 +84,7 @@ public abstract class MenuBase extends AbstractContainerMenu {
     public boolean stillValid(Player player) {
         return this.container.stillValid(player);
     }
+
+
 
 }

@@ -5,16 +5,29 @@ import net.minecraft.world.item.crafting.Recipe;
 
 public abstract class RecipeBase implements Recipe<BlockEntityBase> {
 
+    protected final int cookTime;
+
+
+
+
+
+    //----------------------------------------CONSTRUCTOR----------------------------------------//
+
     public RecipeBase(int cooktime){
         cookTime = cooktime;
     }
 
-    protected final int cookTime;
 
-    /**
-     * Gets the cook time in ticks
-     */
+
+
+
+    //----------------------------------------SUPPORT----------------------------------------//
+
+    /** Gets the cook time in ticks */
     public int getCookTime() {
         return this.cookTime;
     }
+
+
+
 }

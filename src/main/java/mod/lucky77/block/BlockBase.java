@@ -25,6 +25,7 @@ public abstract class BlockBase extends Block {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Default Contructor */
@@ -45,6 +46,7 @@ public abstract class BlockBase extends Block {
 
 
 
+
     //----------------------------------------PLACEMENT----------------------------------------//
 
     // ...
@@ -52,9 +54,11 @@ public abstract class BlockBase extends Block {
 
 
 
+
     //----------------------------------------INTERACTION----------------------------------------//
 
     public abstract void interact(Level world, BlockPos pos, Player player, BlockEntityBase tile);
+
 
 
 
@@ -74,21 +78,10 @@ public abstract class BlockBase extends Block {
         return blockentity == null ? false : blockentity.triggerEvent(p_49229_, p_49230_);
     }
 
-    //@Nullable
-    //public MenuProvider getMenuProvider(BlockState p_49234_, Level p_49235_, BlockPos p_49236_) {
-    //    BlockEntity blockentity = p_49235_.getBlockEntity(p_49236_);
-    //    return blockentity instanceof MenuProvider ? (MenuProvider)blockentity : null;
-    //}
-
     @Nullable
     protected static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createTickerHelper(BlockEntityType<A> p_152133_, BlockEntityType<E> p_152134_, BlockEntityTicker<? super E> p_152135_) {
         return p_152134_ == p_152133_ ? (BlockEntityTicker<A>)p_152135_ : null;
     }
-
-
-
-
-    //----------------------------------------GETTER/SETTER----------------------------------------//
 
     protected BlockPos getTilePosition(BlockPos pos, boolean isPrimary, Direction facing){
         if(facing == Direction.DOWN || facing == Direction.UP){
@@ -105,5 +98,7 @@ public abstract class BlockBase extends Block {
             return pos2;
         }
     }
+
+
 
 }

@@ -25,7 +25,8 @@ import javax.annotation.Nullable;
 public abstract class MachinaTall extends BlockBase {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-    public static final BooleanProperty OFFSET = BlockStateProperties.ATTACHED;
+    public static final BooleanProperty   OFFSET = BlockStateProperties.ATTACHED;
+
 
 
 
@@ -37,6 +38,7 @@ public abstract class MachinaTall extends BlockBase {
         super(block);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(OFFSET, true));
     }
+
 
 
 
@@ -74,6 +76,7 @@ public abstract class MachinaTall extends BlockBase {
 
 
 
+
     //----------------------------------------INTERACTION----------------------------------------//
 
     @Override
@@ -83,6 +86,7 @@ public abstract class MachinaTall extends BlockBase {
         }
         return InteractionResult.SUCCESS;
     }
+
 
 
 
@@ -111,18 +115,10 @@ public abstract class MachinaTall extends BlockBase {
         return true;
     }
 
-
-
-
-    //----------------------------------------GETTER/SETTER----------------------------------------//
-
-    //@Override
-    //public boolean hasTileEntity(BlockState state) {
-    //    return state.getValue(OFFSET);
-    //}
-
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
+
+
 
 }
