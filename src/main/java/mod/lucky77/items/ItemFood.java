@@ -11,6 +11,7 @@ public class ItemFood extends Item {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Default Constructor */
@@ -18,5 +19,15 @@ public class ItemFood extends Item {
         super(isMeat ? new Properties().tab(ItemGroup.TAB_FOOD).stacksTo(64).food(new Food.Builder().nutrition(hunger).saturationMod(saturation).meat().build())
                      : new Properties().tab(ItemGroup.TAB_FOOD).stacksTo(64).food(new Food.Builder().nutrition(hunger).saturationMod(saturation).build()));
     }
+
+
+
+
+
+    //----------------------------------------SUPPORT----------------------------------------//
+
+    // ...
+
+
 
 }

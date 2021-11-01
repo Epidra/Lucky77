@@ -18,6 +18,7 @@ public abstract class BlockBase extends Block {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Default Contructor */
@@ -38,6 +39,7 @@ public abstract class BlockBase extends Block {
 
 
 
+
     //----------------------------------------PLACEMENT----------------------------------------//
 
     // ...
@@ -45,9 +47,11 @@ public abstract class BlockBase extends Block {
 
 
 
+
     //----------------------------------------INTERACTION----------------------------------------//
 
     public abstract void interact(World world, BlockPos pos, PlayerEntity player, TileBase tile);
+
 
 
 
@@ -60,11 +64,6 @@ public abstract class BlockBase extends Block {
             world.updateNeighbourForOutputSignal(pos, this);
         }
     }
-
-
-
-
-    //----------------------------------------GETTER/SETTER----------------------------------------//
 
     protected BlockPos getTilePosition(BlockPos pos, boolean isPrimary, Direction facing){
         if(facing == Direction.DOWN || facing == Direction.UP){
@@ -81,5 +80,7 @@ public abstract class BlockBase extends Block {
             return pos2;
         }
     }
+
+
 
 }

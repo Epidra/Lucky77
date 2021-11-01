@@ -5,16 +5,29 @@ import net.minecraft.item.crafting.IRecipe;
 
 public abstract class RecipeBase implements IRecipe<TileBase> {
 
+    protected final int cookTime;
+
+
+
+
+
+    //----------------------------------------CONSTRUCTOR----------------------------------------//
+
     public RecipeBase(int cooktime){
         cookTime = cooktime;
     }
 
-    protected final int cookTime;
 
-    /**
-     * Gets the cook time in ticks
-     */
+
+
+
+    //----------------------------------------SUPPORT----------------------------------------//
+
+    /** Gets the cook time in ticks */
     public int getCookTime() {
         return this.cookTime;
     }
+
+
+
 }

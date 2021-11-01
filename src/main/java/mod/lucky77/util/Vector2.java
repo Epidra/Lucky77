@@ -9,6 +9,7 @@ public class Vector2 {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Default Contructor */
@@ -25,7 +26,8 @@ public class Vector2 {
 
 
 
-    //----------------------------------------FUNCTION----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     /** Sets the Vector with the given Values */
     public void set(int x, int y) {
@@ -70,5 +72,7 @@ public class Vector2 {
     public boolean matches(Vector2 v) {
         return X == v.X && Y == v.Y;
     }
+
+
 
 }

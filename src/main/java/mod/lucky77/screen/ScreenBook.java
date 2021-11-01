@@ -9,7 +9,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class ScreenBase<T extends ContainerBase> extends ContainerScreen<T>  {
+public abstract class ScreenBook<T extends ContainerBase> extends ContainerScreen<T>  {
 
     // ...
 
@@ -19,7 +19,7 @@ public abstract class ScreenBase<T extends ContainerBase> extends ContainerScree
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public ScreenBase(T container, PlayerInventory player, ITextComponent name, int imageWidth, int imageHeight) {
+    public ScreenBook(T container, PlayerInventory player, ITextComponent name, int imageWidth, int imageHeight) {
         super(container, player, name);
         this.imageWidth  = imageWidth;
         this.imageHeight = imageHeight;
