@@ -5,15 +5,20 @@ import net.minecraft.item.ItemStack;
 
 public class Inventory {
 
+    // ...
+
+
+
+
+
+    //----------------------------------------SUPPORT----------------------------------------//
+
     public static boolean decreaseInventory(PlayerInventory inv, ItemStack item, int amount){
         boolean decreased = false;
-
         int leftAmount = amount;
-
         if(item.isEmpty() || amount <= 0){
             return false;
         }
-
         for(int j = 0; j < inv.getContainerSize(); ++j) {
             if(leftAmount > 0){
                 ItemStack itemstack = inv.getItem(j);
@@ -33,8 +38,9 @@ public class Inventory {
                 }
             }
         }
-
         return decreased;
     }
+
+
 
 }

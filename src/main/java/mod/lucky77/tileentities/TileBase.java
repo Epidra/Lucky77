@@ -24,6 +24,7 @@ public abstract class TileBase<T extends LogicBase> extends TileEntity implement
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public TileBase(TileEntityType<?> tileEntityTypeIn, int inventorySize) {
@@ -39,9 +40,11 @@ public abstract class TileBase<T extends LogicBase> extends TileEntity implement
 
 
 
+
     //----------------------------------------UPDATE----------------------------------------//
 
     // ...
+
 
 
 
@@ -71,17 +74,12 @@ public abstract class TileBase<T extends LogicBase> extends TileEntity implement
         if (stack.getCount() > this.getMaxStackSize()) {
             stack.setCount(this.getMaxStackSize());
         }
-
-        //if (slot == 0 && !flag) {
-        //    this.cookingTotalTime = this.getTotalCookTime();
-        //    this.cookingProgress = 0;
-        //    this.setChanged();
-        //}
     }
 
     public boolean canPlaceItem(int slot, ItemStack stack) {
         return true;
     }
+
 
 
 
@@ -95,11 +93,6 @@ public abstract class TileBase<T extends LogicBase> extends TileEntity implement
     //    save(nbtTagCompound);
     //    return new SUpdateTileEntityPacket(this.worldPosition, ShopKeeper.TILE_FOUNDRY.get().hashCode(), nbtTagCompound);
     //}
-
-
-
-
-    //----------------------------------------NETWORK----------------------------------------//
 
     /** Creates a tag containing the TileEntity information, used by vanilla to transmit from server to client */
     @Override
@@ -118,6 +111,7 @@ public abstract class TileBase<T extends LogicBase> extends TileEntity implement
 
 
 
+
     //----------------------------------------READ/WRITE----------------------------------------//
 
     public void load(BlockState state, CompoundNBT nbt){
@@ -132,6 +126,7 @@ public abstract class TileBase<T extends LogicBase> extends TileEntity implement
         ItemStackHelper.saveAllItems(compound, this.inventory);
         return compound;
     }
+
 
 
 
@@ -171,6 +166,7 @@ public abstract class TileBase<T extends LogicBase> extends TileEntity implement
     public abstract IIntArray getIntArray();
 
     public abstract ITextComponent getName();
+
 
 
 }

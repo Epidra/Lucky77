@@ -13,7 +13,7 @@ import net.minecraft.util.IIntArray;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public abstract class ContainerBase extends Container {
+public abstract class ContainerBook extends Container {
 
     public IInventory inventory;
     protected World world;
@@ -27,16 +27,16 @@ public abstract class ContainerBase extends Container {
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public ContainerBase(ContainerType<?> type, int windowID, PlayerInventory playerInventory, PacketBuffer packetBuffer) {
+    public ContainerBook(ContainerType<?> type, int windowID, PlayerInventory playerInventory, PacketBuffer packetBuffer) {
         this(type, windowID, playerInventory, BlockPos.of(packetBuffer.readLong()));
     }
 
-    public ContainerBase(ContainerType<?> type, int windowID, PlayerInventory playerInventory, BlockPos pos) {
+    public ContainerBook(ContainerType<?> type, int windowID, PlayerInventory playerInventory, BlockPos pos) {
         this(type, windowID, playerInventory, (TileBase) playerInventory.player.getCommandSenderWorld().getBlockEntity(pos));
         this.pos = pos;
     }
 
-    public ContainerBase(ContainerType<?> type, int windowID, PlayerInventory playerInventory, TileBase tile) {
+    public ContainerBook(ContainerType<?> type, int windowID, PlayerInventory playerInventory, TileBase tile) {
         super(type, windowID);
         this.inventory = tile;
         this.world = playerInventory.player.level;

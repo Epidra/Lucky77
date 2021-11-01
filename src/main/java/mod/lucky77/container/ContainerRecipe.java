@@ -27,6 +27,7 @@ public abstract class ContainerRecipe extends RecipeBookContainer<IInventory> {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ContainerRecipe(ContainerType<?> type, int windowID, PlayerInventory playerInventory, PacketBuffer packetBuffer, IRecipeType<? extends RecipeBase> recipeType) {
@@ -41,8 +42,6 @@ public abstract class ContainerRecipe extends RecipeBookContainer<IInventory> {
     public ContainerRecipe(ContainerType<?> type, int windowID, PlayerInventory playerInventory, TileBase tile, IRecipeType<? extends RecipeBase> recipeType) {
         super(type, windowID);
         this.recipeType = recipeType;
-        //assertInventorySize(tile, 3);
-        //assertIntArraySize(tile.getIntArray(), 4);
         this.inventory = tile;
         this.world = playerInventory.player.level;
         this.data = tile.getIntArray();
@@ -52,15 +51,10 @@ public abstract class ContainerRecipe extends RecipeBookContainer<IInventory> {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     protected abstract void createInventory(TileBase tile, PlayerInventory playerInventory);
-
-    /** Determines whether supplied player can use this container */
-    //@Override
-    //public boolean canInteractWith(PlayerEntity playerIn) {
-    //    return inventory.isUsableByPlayer(playerIn);
-    //}
 
     /** Adds Slots from Player Inventory at the default Position **/
     protected void addPlayerSlots(PlayerInventory playerInventory) {
@@ -85,21 +79,11 @@ public abstract class ContainerRecipe extends RecipeBookContainer<IInventory> {
         }
     }
 
-
-
-
-    //----------------------------------------SUPPORT----------------------------------------//
-
-    // ...
-
-
-
-
-    //----------------------------------------GETTER/SETTER----------------------------------------//
-
     @Override
     public boolean stillValid(PlayerEntity player) {
         return this.inventory.stillValid(player);
     }
+
+
 
 }

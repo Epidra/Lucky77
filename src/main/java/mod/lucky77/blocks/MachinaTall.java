@@ -30,6 +30,7 @@ public abstract class MachinaTall extends BlockBase {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Contructor with predefined BlockProperty */
@@ -37,6 +38,7 @@ public abstract class MachinaTall extends BlockBase {
         super(block);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(OFFSET, true));
     }
+
 
 
 
@@ -74,6 +76,7 @@ public abstract class MachinaTall extends BlockBase {
 
 
 
+
     //----------------------------------------INTERACTION----------------------------------------//
 
     @Override
@@ -83,6 +86,7 @@ public abstract class MachinaTall extends BlockBase {
         }
         return ActionResultType.SUCCESS;
     }
+
 
 
 
@@ -111,11 +115,6 @@ public abstract class MachinaTall extends BlockBase {
         return true;
     }
 
-
-
-
-    //----------------------------------------GETTER/SETTER----------------------------------------//
-
     @Override
     public boolean hasTileEntity(BlockState state) {
         return state.getValue(OFFSET);
@@ -124,5 +123,7 @@ public abstract class MachinaTall extends BlockBase {
     public BlockRenderType getRenderShape(BlockState state) {
         return BlockRenderType.MODEL;
     }
+
+
 
 }
