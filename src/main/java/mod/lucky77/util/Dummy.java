@@ -1,6 +1,6 @@
-package mod.lucky77.logic;
+package mod.lucky77.util;
 
-public class LogicBase {
+public class Dummy {
 
     // ...
 
@@ -10,7 +10,7 @@ public class LogicBase {
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public LogicBase(){
+    public Dummy(){
 
     }
 

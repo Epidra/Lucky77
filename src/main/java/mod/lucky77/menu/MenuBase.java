@@ -1,7 +1,7 @@
 package mod.lucky77.menu;
 
 import mod.lucky77.blockentity.BlockEntityBase;
-import mod.lucky77.logic.LogicBase;
+import mod.lucky77.util.Dummy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
@@ -19,7 +19,7 @@ public abstract class MenuBase extends AbstractContainerMenu {
     protected Level level;
     protected ContainerData data;
     protected BlockPos pos = new BlockPos(0, 0, 0);
-    protected LogicBase logic;
+    protected Dummy logic;
 
 
 
@@ -74,10 +74,6 @@ public abstract class MenuBase extends AbstractContainerMenu {
                 addSlot(new Slot(playerInventory, col + row * 9, x, y));
             }
         }
-    }
-
-    public LogicBase logicbase(){
-        return logic;
     }
 
     @Override

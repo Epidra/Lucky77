@@ -68,7 +68,7 @@ public class Vector2 {
         return X == x && Y == y;
     }
 
-    /** Returns if this Vector is identical to an existing Vecotr */
+    /** Returns if this Vector is identical to an existing Vector */
     public boolean matches(Vector2 v) {
         return X == v.X && Y == v.Y;
     }

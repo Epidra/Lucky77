@@ -4,7 +4,6 @@ import mod.lucky77.blockentity.BlockEntityBase;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Containers;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -72,15 +71,15 @@ public abstract class BlockBase extends Block {
         }
     }
 
-    public boolean triggerEvent(BlockState p_49226_, Level p_49227_, BlockPos p_49228_, int p_49229_, int p_49230_) {
-        super.triggerEvent(p_49226_, p_49227_, p_49228_, p_49229_, p_49230_);
-        BlockEntity blockentity = p_49227_.getBlockEntity(p_49228_);
-        return blockentity == null ? false : blockentity.triggerEvent(p_49229_, p_49230_);
+    public boolean triggerEvent(BlockState state, Level level, BlockPos pos, int val1, int val2) {
+        super.triggerEvent(state, level, pos, val1, val2);
+        BlockEntity blockentity = level.getBlockEntity(pos);
+        return blockentity != null && blockentity.triggerEvent(val1, val2);
     }
 
     @Nullable
-    protected static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createTickerHelper(BlockEntityType<A> p_152133_, BlockEntityType<E> p_152134_, BlockEntityTicker<? super E> p_152135_) {
-        return p_152134_ == p_152133_ ? (BlockEntityTicker<A>)p_152135_ : null;
+    protected static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createTickerHelper(BlockEntityType<A> entityTypeA, BlockEntityType<E> entityTypeE, BlockEntityTicker<? super E> ticker) {
+        return entityTypeE == entityTypeA ? (BlockEntityTicker<A>)ticker : null;
     }
 
     protected BlockPos getTilePosition(BlockPos pos, boolean isPrimary, Direction facing){

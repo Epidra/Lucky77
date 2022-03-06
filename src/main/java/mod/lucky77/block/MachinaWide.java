@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
 public abstract class MachinaWide extends BlockBase {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-    public static final BooleanProperty OFFSET = BlockStateProperties.ATTACHED;
+    public static final BooleanProperty   OFFSET = BlockStateProperties.ATTACHED;
 
 
 

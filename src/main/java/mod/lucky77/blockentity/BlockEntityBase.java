@@ -1,6 +1,6 @@
 package mod.lucky77.blockentity;
 
-import mod.lucky77.logic.LogicBase;
+import mod.lucky77.util.Dummy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public abstract class BlockEntityBase<T extends LogicBase> extends BlockEntity implements Container {
+public abstract class BlockEntityBase<T extends Dummy> extends BlockEntity implements Container {
 
     protected NonNullList<ItemStack> inventory;
     public T logic;
@@ -26,7 +26,7 @@ public abstract class BlockEntityBase<T extends LogicBase> extends BlockEntity i
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public BlockEntityBase(BlockEntityType<?> tileEntityTypeIn, BlockPos blockpos, BlockState blockstate, int inventorySize) {
-        this(tileEntityTypeIn, blockpos, blockstate, inventorySize, (T)new LogicBase());
+        this(tileEntityTypeIn, blockpos, blockstate, inventorySize, (T)new Dummy());
     }
 
     public BlockEntityBase(BlockEntityType<?> tileEntityTypeIn, BlockPos blockpos, BlockState blockstate, int inventorySize, T logic) {
@@ -84,13 +84,16 @@ public abstract class BlockEntityBase<T extends LogicBase> extends BlockEntity i
 
     //----------------------------------------NETWORK----------------------------------------//
 
-    //@Override
-    //@Nullable
-    //public SUpdateTileEntityPacket getUpdatePacket(){
-    //    CompoundNBT nbtTagCompound = new CompoundNBT();
-    //    save(nbtTagCompound);
-    //    return new SUpdateTileEntityPacket(this.worldPosition, ShopKeeper.TILE_FOUNDRY.get().hashCode(), nbtTagCompound);
-    //}
+    /* This has to be copied over to the actual Entity implementation
+     * Is now obsolete
+    @Override
+    @Nullable
+    public SUpdateTileEntityPacket getUpdatePacket(){
+        CompoundNBT nbtTagCompound = new CompoundNBT();
+        save(nbtTagCompound);
+        return new SUpdateTileEntityPacket(this.worldPosition, ShopKeeper.TILE_FOUNDRY.get().hashCode(), nbtTagCompound);
+    }
+    */
 
 
 
@@ -103,7 +106,7 @@ public abstract class BlockEntityBase<T extends LogicBase> extends BlockEntity i
     @Override
     public CompoundTag getUpdateTag(){
         CompoundTag nbtTagCompound = new CompoundTag();
-        save(nbtTagCompound);
+        saveAdditional(nbtTagCompound);
         return nbtTagCompound;
     }
 
@@ -119,17 +122,17 @@ public abstract class BlockEntityBase<T extends LogicBase> extends BlockEntity i
 
     //----------------------------------------READ/WRITE----------------------------------------//
 
+    /** Loads the basic Information about this BlockEntity from Disc */
     public void load(CompoundTag nbt){
         super.load(nbt);
-
         this.inventory = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
         ContainerHelper.loadAllItems(nbt, this.inventory);
     }
 
-    public CompoundTag save(CompoundTag compound){
-        super.save(compound);
+    /** Saves the basic Information about this BlockEntity to Disc */
+    public void saveAdditional(CompoundTag compound){
+        super.saveAdditional(compound);
         ContainerHelper.saveAllItems(compound, this.inventory);
-        return compound;
     }
 
 
@@ -150,7 +153,6 @@ public abstract class BlockEntityBase<T extends LogicBase> extends BlockEntity i
                 return false;
             }
         }
-
         return true;
     }
 

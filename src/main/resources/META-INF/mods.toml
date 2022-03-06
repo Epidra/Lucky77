@@ -1,21 +1,21 @@
 modLoader="javafml"
-loaderVersion="[38,)" #mandatory
+loaderVersion="[39,)" #mandatory
 license="All rights reserved"
 issueTrackerURL="https://github.com/Epidra/Lucky77/issues"
 [[mods]]
 modId="lucky77"
-version="1.0"
+version="2.0"
 displayName="Lucky77"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/lucky77"
 logoFile="logo.png"
-credits="Thanks for this example mod goes to Java" #optional
-authors="Love, Cheese and small house plants" #optional
+credits="Thanks to everyone I liberated code from" #optional
+authors="Epidra2077" #optional
 description='''
-Lorem Ipsum
+Core Module to power up my mods
 '''
 [[dependencies.lucky77]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.18,1.19)"
+    versionRange="[1.18.1,1.19)"
     ordering="NONE"
     side="BOTH"

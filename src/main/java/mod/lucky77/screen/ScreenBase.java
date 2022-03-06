@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import mod.lucky77.menu.MenuBase;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -22,7 +21,7 @@ public abstract class ScreenBase<T extends MenuBase> extends AbstractContainerSc
 
     public ScreenBase(T container, Inventory player, Component name, int imageWidth, int imageHeight) {
         super(container, player, name);
-        this.imageWidth = imageWidth;
+        this.imageWidth  = imageWidth;
         this.imageHeight = imageHeight;
     }
 
@@ -32,8 +31,8 @@ public abstract class ScreenBase<T extends MenuBase> extends AbstractContainerSc
 
     //----------------------------------------INPUT----------------------------------------//
 
-    public boolean keyPressed(int p_231046_1_, int p_231046_2_, int p_231046_3_) {
-        return super.keyPressed(p_231046_1_, p_231046_2_, p_231046_3_);
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
 

@@ -1,9 +1,9 @@
-package mod.lucky77.util;
+package mod.lucky77.system;
 
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
-public class InventoryUtil {
+public class SystemInventory {
 
     // ...
 
@@ -11,7 +11,7 @@ public class InventoryUtil {
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+    //----------------------------------------INVENTORY----------------------------------------//
 
     public static boolean decreaseInventory(Inventory inv, ItemStack item, int amount){
         boolean decreased = false;

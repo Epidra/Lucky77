@@ -1,4 +1,4 @@
-package mod.lucky77.util;
+package mod.lucky77.system;
 
 import net.minecraftforge.common.BiomeDictionary;
 
@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class BiomeDictionaryHelper {
+public class SystemBiomes {
 
     // ...
 
@@ -15,7 +15,7 @@ public class BiomeDictionaryHelper {
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+    //----------------------------------------BIOME-DICTIONARY----------------------------------------//
 
     public static BiomeDictionary.Type getType(String name) {
         Map<String, BiomeDictionary.Type> byName = BiomeDictionary.Type.getAll().stream().collect(Collectors.toMap(BiomeDictionary.Type::getName, Function.identity()));
