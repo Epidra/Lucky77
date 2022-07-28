@@ -3,6 +3,7 @@ package mod.lucky77.system;
 import com.google.common.collect.ImmutableMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
@@ -57,7 +58,7 @@ public class SystemTrades {
             this.priceMultiplier = priceMultiplier;
         }
 
-        public MerchantOffer getOffer(Entity entity, Random random) {
+        public MerchantOffer getOffer(Entity entity, RandomSource random) {
             return new MerchantOffer(new ItemStack(this.item, this.cost), new ItemStack(this.gem, this.amount), this.maxUses, this.villagerXp, this.priceMultiplier);
         }
     }
@@ -111,7 +112,7 @@ public class SystemTrades {
             this.gem             = gem;
         }
 
-        public MerchantOffer getOffer(Entity entity, Random random) {
+        public MerchantOffer getOffer(Entity entity, RandomSource random) {
             return new MerchantOffer(new ItemStack(this.gem, this.gemCost), new ItemStack(this.itemStack.getItem(), this.numberOfItems), this.maxUses, this.villagerXp, this.priceMultiplier);
         }
     }

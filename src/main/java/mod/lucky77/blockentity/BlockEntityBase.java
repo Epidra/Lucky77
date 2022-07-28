@@ -4,7 +4,6 @@ import mod.lucky77.util.Dummy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Player;
@@ -172,7 +171,7 @@ public abstract class BlockEntityBase<T extends Dummy> extends BlockEntity imple
 
     public abstract ContainerData getIntArray();
 
-    public abstract TextComponent getName();
+    // public abstract TextComponent getName();
 
 
 

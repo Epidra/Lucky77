@@ -19,8 +19,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.JigsawConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
@@ -60,9 +58,9 @@ public class SystemRegister {
         return deferred.register(name, () -> entity);
     }
 
-    public static RegistryObject<StructureFeature<JigsawConfiguration>> register(DeferredRegister<StructureFeature<?>> deferred, String name, StructureFeature<JigsawConfiguration> structure){
-        return deferred.register(name, () -> (structure));
-    }
+    // public static RegistryObject<StructureFeature<JigsawConfiguration>> register(DeferredRegister<StructureFeature<?>> deferred, String name, StructureFeature<JigsawConfiguration> structure){
+    //     return deferred.register(name, () -> (structure));
+    // }
 
     public static RegistryObject<?> register(DeferredRegister<RecipeSerializer<?>> deferred, String name, RecipeSerializer<?> recipe){
         return deferred.register(name, () -> recipe);
