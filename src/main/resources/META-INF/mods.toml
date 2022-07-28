@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[39,)" #mandatory
+loaderVersion="[40,)" #mandatory
 license="All rights reserved"
 issueTrackerURL="https://github.com/Epidra/Lucky77/issues"
 [[mods]]
