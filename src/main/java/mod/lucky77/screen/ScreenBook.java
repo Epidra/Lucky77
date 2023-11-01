@@ -5,10 +5,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mod.lucky77.Lucky77;
 import mod.lucky77.item.ItemBook;
-import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -35,7 +35,7 @@ public class ScreenBook extends Screen {
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenBook(ItemBook item) {
-        super(NarratorChatListener.NO_TITLE);
+        super(Component.empty());
         this.item = item;
         loadPages();
     }

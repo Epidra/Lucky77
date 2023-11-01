@@ -15,7 +15,7 @@ public class ItemItem extends Item {
 
     /** Default Constructor */
     public ItemItem(CreativeModeTab group){
-        super(new Properties().tab(group));
+        super(new Properties());
     }
 
 

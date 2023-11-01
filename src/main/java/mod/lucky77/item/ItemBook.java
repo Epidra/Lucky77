@@ -26,7 +26,7 @@ public class ItemBook extends Item {
 
     /** Default Constructor */
     public ItemBook(CreativeModeTab group, int colorID){
-        super(new Properties().tab(group));
+        super(new Properties());
         this.colorID = colorID;
     }
 

@@ -42,7 +42,7 @@ public class SystemRegister {
     }
 
     public static RegistryObject<Block> register(DeferredRegister<Block> deferredBLOCK, DeferredRegister<Item> deferredITEM, String name, Block block, CreativeModeTab CreativeModeTab){
-        if(CreativeModeTab != null){ deferredITEM.register(name, () -> new BlockItem(block, (new Item.Properties()).tab(CreativeModeTab))); }
+        if(CreativeModeTab != null){ deferredITEM.register(name, () -> new BlockItem(block, (new Item.Properties()))); }
         return deferredBLOCK.register(name, () -> block);
     }
 
@@ -66,16 +66,16 @@ public class SystemRegister {
         return deferred.register(name, () -> recipe);
     }
 
-    public static <T extends Recipe<?>> RecipeType<T> register(final String key) {
-        return Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(key), new RecipeType<T>()
-        {
-            @Override
-            public String toString()
-            {
-                return key;
-            }
-        });
-    }
+    // public static <T extends Recipe<?>> RecipeType<T> register(final String key) {
+    //     return Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(key), new RecipeType<T>()
+    //     {
+    //         @Override
+    //         public String toString()
+    //         {
+    //             return key;
+    //         }
+    //     });
+    // }
 
 
 
@@ -83,15 +83,14 @@ public class SystemRegister {
 
     //----------------------------------------BUILD----------------------------------------//
 
-    public static Holder<PlacedFeature> buildOreSpawn(String name, BlockState state, int veinSize, int minHeight, int maxHeight, int spawnRate, RuleTest replacables, boolean isRare) {
-        List<OreConfiguration.TargetBlockState> TARGETLIST = List.of(OreConfiguration.target(replacables, state));
-        Holder<ConfiguredFeature<OreConfiguration, ?>> FEATURE = FeatureUtils.register(name, Feature.ORE, new OreConfiguration(TARGETLIST, veinSize));
-        return PlacementUtils.register(name, FEATURE,
-                isRare ?  commonOrePlacement(spawnRate, HeightRangePlacement.uniform(VerticalAnchor.absolute(minHeight), VerticalAnchor.absolute(maxHeight)))
-                        : rareOrePlacement(  spawnRate, HeightRangePlacement.uniform(VerticalAnchor.absolute(minHeight), VerticalAnchor.absolute(maxHeight)))
-
-        );
-    }
+    // public static Holder<PlacedFeature> buildOreSpawn(String name, BlockState state, int veinSize, int minHeight, int maxHeight, int spawnRate, RuleTest replacables, boolean isRare) {
+    //     List<OreConfiguration.TargetBlockState> TARGETLIST = List.of(OreConfiguration.target(replacables, state));
+    //     Holder<ConfiguredFeature<OreConfiguration, ?>> FEATURE = FeatureUtils.register(name, Feature.ORE, new OreConfiguration(TARGETLIST, veinSize));
+    //     return PlacementUtils.register(name, FEATURE,
+    //             isRare ?  commonOrePlacement(spawnRate, HeightRangePlacement.uniform(VerticalAnchor.absolute(minHeight), VerticalAnchor.absolute(maxHeight)))
+    //                     : rareOrePlacement(  spawnRate, HeightRangePlacement.uniform(VerticalAnchor.absolute(minHeight), VerticalAnchor.absolute(maxHeight)))
+    //     );
+    // }
 
     //public static ConfiguredStructureFeature<?, ?> buildConfiguredStructureFeature(){
     //    return null;
