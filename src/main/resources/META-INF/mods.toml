@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[45,)" #mandatory
+loaderVersion="[47,)" #mandatory
 license="All rights reserved"
 issueTrackerURL="https://github.com/Epidra/Lucky77/issues"
 [[mods]]
@@ -16,6 +16,6 @@ Core Module to power up my mods
 [[dependencies.lucky77]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.4,1.20)"
+    versionRange="[1.20.1,1.21)"
     ordering="NONE"
     side="BOTH"

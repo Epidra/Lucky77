@@ -12,8 +12,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
 
 import javax.annotation.Nullable;
 
@@ -28,9 +26,9 @@ public abstract class BlockBase extends Block {
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Default Contructor */
-    public BlockBase(Material material, MaterialColor materialcolor, float hardness, float resistance, SoundType sound, int light) {
-        super(Properties.of(material, materialcolor).strength(hardness, resistance).sound(sound));
-    }
+    // public BlockBase(Material material, MaterialColor materialcolor, float hardness, float resistance, SoundType sound, int light) {
+    //     super(Properties.of(material, materialcolor).strength(hardness, resistance).sound(sound));
+    // }
 
     /** Contructor with with Property extracted from Block */
     public BlockBase(Block block) {

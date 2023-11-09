@@ -39,7 +39,7 @@ public abstract class MenuRecipe extends RecipeBookMenu<Container> {
         super(type, windowID);
         this.recipeType = recipeType;
         this.container = tile;
-        this.level = playerInventory.player.level;
+        this.level = playerInventory.player.level();
         this.data = tile.getIntArray();
         createInventory(tile, playerInventory);
     }

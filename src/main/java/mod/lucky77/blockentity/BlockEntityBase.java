@@ -11,6 +11,7 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 public abstract class BlockEntityBase<T extends Dummy> extends BlockEntity implements Container {
@@ -66,7 +67,7 @@ public abstract class BlockEntityBase<T extends Dummy> extends BlockEntity imple
     @Override
     public void setItem(int slot, ItemStack stack) {
         ItemStack itemstack = this.inventory.get(slot);
-        boolean flag = !stack.isEmpty() && stack.sameItem(itemstack) && ItemStack.tagMatches(stack, itemstack);
+        boolean flag = !stack.isEmpty() && stack.isSameItemSameTags(itemstack, stack);
         this.inventory.set(slot, stack);
         if (stack.getCount() > this.getMaxStackSize()) {
             stack.setCount(this.getMaxStackSize());

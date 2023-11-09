@@ -2,6 +2,7 @@ package mod.lucky77.screen;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import mod.lucky77.menu.MenuBase;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -41,7 +42,7 @@ public abstract class ScreenBase<T extends MenuBase> extends AbstractContainerSc
 
     //----------------------------------------DRAW----------------------------------------//
 
-    public void render(PoseStack matrixStack, int mousePosX, int mousePosY, float partialTick) {
+    public void render(GuiGraphics matrixStack, int mousePosX, int mousePosY, float partialTick) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mousePosX, mousePosY, partialTick);
         this.renderTooltip(matrixStack, mousePosX, mousePosY);

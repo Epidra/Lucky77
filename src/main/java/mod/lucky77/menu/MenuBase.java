@@ -39,7 +39,7 @@ public abstract class MenuBase extends AbstractContainerMenu {
     public MenuBase(MenuType<?> type, int windowID, Inventory playerInventory, BlockEntityBase tile) {
         super(type, windowID);
         this.container = tile;
-        this.level = playerInventory.player.level;
+        this.level = playerInventory.player.level();
         this.data = tile.getIntArray();
         this.logic = tile.logic;
         createInventory(tile, playerInventory);

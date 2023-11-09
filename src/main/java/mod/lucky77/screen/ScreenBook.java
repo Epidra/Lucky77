@@ -5,6 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mod.lucky77.Lucky77;
 import mod.lucky77.item.ItemBook;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
@@ -84,47 +85,47 @@ public class ScreenBook extends Screen {
 
     //----------------------------------------DRAW----------------------------------------//
 
-    public void render(PoseStack matrixStack, int mousePosX, int mousePosY, float partialTick) {
+    public void render(GuiGraphics matrixStack, int mousePosX, int mousePosY, float partialTick) {
         this.renderBackground(matrixStack);
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, BOOK);
+        // RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        // RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        // RenderSystem.setShaderTexture(0, BOOK);
         int x = (this.width  - 256) / 2;
         int y = (this.height - 180) / 2;
-        this.blit(matrixStack, x, y, 0, 0, 256, 180); // Background
+        matrixStack.blit(BOOK, x, y, 0, 0, 256, 180); // Background
 
         for(int i = 0; i < 2; i++){
             int offset = 120 * i;
             if(header[i].length() > 0){
                 int w = this.font.width(header[i]) / 2;
-                this.font.draw(matrixStack, header[i], x + 68 - w + offset, y + 16, 555555);
+                matrixStack.drawString(font, header[i], x + 68 - w + offset, y + 16, 555555);
             }
 
             if(imageID[i] > -1){
-                RenderSystem.setShaderTexture(0, image[i]);
-                this.blit(matrixStack, x + 8 + offset, y + 26, (imageID[i] % 2) * 128, (imageID[i] / 2) * 128, 128, 128); // Background
+                // RenderSystem.setShaderTexture(0, image[i]);
+                matrixStack.blit(image[i], x + 8 + offset, y + 26, (imageID[i] % 2) * 128, (imageID[i] / 2) * 128, 128, 128); // Background
             }
 
             for(int k = 0; k < text[i].size(); k++){
-                this.font.draw(matrixStack, text[i].get(k),  x + 16 + offset, y + 32 + 9*k, 0);
+                matrixStack.drawString(font, text[i].get(k),  x + 16 + offset, y + 32 + 9*k, 0);
             }
         }
 
-        RenderSystem.setShaderTexture(0, BOOK);
+        // RenderSystem.setShaderTexture(0, BOOK);
 
         if(currentPage > 0){
             if(mouseRect(x + 32, y + 154, 18, 10, mousePosX, mousePosY)){
-                this.blit(matrixStack, x + 32, y + 154, 238, 246, 18, 10); // Left Arrow Highlight
+                matrixStack.blit(BOOK, x + 32, y + 154, 238, 246, 18, 10); // Left Arrow Highlight
             } else {
-                this.blit(matrixStack, x + 32, y + 154, 215, 246, 18, 10); // Left Arrow
+                matrixStack.blit(BOOK, x + 32, y + 154, 215, 246, 18, 10); // Left Arrow
             }
         }
 
         if(currentPage + 2 < item.getMaxPages()){
             if(mouseRect(x + 206, y + 154, 18, 10, mousePosX, mousePosY)){
-                this.blit(matrixStack, x + 206, y + 154, 238, 233, 18, 10); // Right Arrow Highlight
+                matrixStack.blit(BOOK, x + 206, y + 154, 238, 233, 18, 10); // Right Arrow Highlight
             } else {
-                this.blit(matrixStack, x + 206, y + 154, 215, 233, 18, 10); // Right Arrow
+                matrixStack.blit(BOOK, x + 206, y + 154, 215, 233, 18, 10); // Right Arrow
             }
         }
 
