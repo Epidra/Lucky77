@@ -1,9 +1,6 @@
-package mod.lucky77.item;
+package mod.lucky77.util.content;
 
-import net.minecraft.world.item.Item;
-
-@SuppressWarnings("unused")
-public class ItemItem extends Item {
+public class Dummy {
 	
 	// ...
 	
@@ -13,9 +10,8 @@ public class ItemItem extends Item {
 	
 	// ---------- ---------- ---------- ----------  CONSTRUCTOR  ---------- ---------- ---------- ---------- //
 	
-	/** Default Constructor */
-	public ItemItem(){
-		super(new Properties());
+	public Dummy(){
+	
 	}
 	
 	

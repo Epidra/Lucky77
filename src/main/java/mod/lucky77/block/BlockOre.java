@@ -3,16 +3,21 @@ package mod.lucky77.block;
 import mod.lucky77.block.base.BlockBase;
 import mod.lucky77.block.entity.BlockEntityBase;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.util.valueproviders.IntProvider;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 
 @SuppressWarnings("unused")
-public class BlockBlock extends BlockBase {
+public class BlockOre extends BlockBase {
 	
-	// ...
+	private final IntProvider xpRange;
 	
 	
 	
@@ -20,19 +25,9 @@ public class BlockBlock extends BlockBase {
 	
 	// ---------- ---------- ---------- ----------  CONSTRUCTOR  ---------- ---------- ---------- ---------- //
 	
-	/** Default Contructor */
-	public BlockBlock(MapColor color, float hardness, float resistance, SoundType sound) {
-		super(Properties.of().mapColor(color).strength(hardness, resistance).sound(sound));
-	}
-	
-	/** Contructor with Property extracted from Block */
-	public BlockBlock(Block block) {
-		super(Properties.copy(block));
-	}
-	
-	/** Contructor with predefined BlockProperty */
-	public BlockBlock(Properties properties) {
-		super(properties);
+	public BlockOre(MapColor color, float hardness, float resistance, SoundType sound, int minXP, int maxXP) {
+		super(Properties.of().mapColor(color).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().strength(hardness, resistance).sound(sound));
+		this.xpRange = UniformInt.of(minXP, maxXP);
 	}
 	
 	
@@ -60,7 +55,10 @@ public class BlockBlock extends BlockBase {
 	
 	// ---------- ---------- ---------- ----------  SUPPORT  ---------- ---------- ---------- ---------- //
 	
-	// ...
+	@Override
+	public int getExpDrop(BlockState state, LevelReader level, RandomSource randomSource, BlockPos pos, int fortuneLevel, int silkTouchLevel) {
+		return silkTouchLevel == 0 ? this.xpRange.sample(randomSource) : 0;
+	}
 	
 	
 	
