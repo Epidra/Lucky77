@@ -5,6 +5,7 @@ import mod.lucky77.Lucky77;
 import mod.lucky77.item.ItemBook;
 import mod.lucky77.util.button.ButtonSet;
 import mod.lucky77.util.Vector2;
+import mod.lucky77.util.content.ContentPage;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
@@ -21,15 +22,11 @@ import java.util.List;
 public class ScreenBook extends Screen {
 	
 	private ResourceLocation BOOK = new ResourceLocation(Lucky77.MODID, "textures/gui/book_gray.png");
-	ItemBook item;
-	int currentPage;
 	
-	List<String>[] text = new List[]{new ArrayList(), new ArrayList()};
-	String[] header = new String[]{"", ""};
-	ResourceLocation[] image = new ResourceLocation[]{new ResourceLocation(Lucky77.MODID, "textures/gui/book_gray.png"), new ResourceLocation(Lucky77.MODID, "textures/gui/book_gray.png")};
-	int[] imageID = new int[]{0, 0};
+	private final List<ContentPage> content   = new ArrayList<>();
+	private final      ButtonSet    buttonSet = new ButtonSet();
 	
-	protected ButtonSet buttonSet = new ButtonSet();
+	private int currentPage;
 	
 	
 	
@@ -39,8 +36,7 @@ public class ScreenBook extends Screen {
 	
 	public ScreenBook(ItemBook item) {
 		super(Component.empty());
-		this.item = item;
-		loadPages();
+		loadPages(item);
 		createButtons();
 	}
 	
@@ -51,8 +47,8 @@ public class ScreenBook extends Screen {
 	// ---------- ---------- ---------- ----------  CREATE  ---------- ---------- ---------- ---------- //
 	
 	private void createButtons(){
-		buttonSet.addButton(0, new Vector2( 32-2, 154+2), new Vector2(215, 246), new Vector2(215, 246), new Vector2(238, 246), new Vector2(18, 10), -1, () -> this.currentPage     >                  0, () -> this.commandPageBack());
-		buttonSet.addButton(1, new Vector2(206+2, 154+2), new Vector2(215, 233), new Vector2(215, 233), new Vector2(238, 233), new Vector2(18, 10), -1, () -> this.currentPage + 2 < item.getMaxPages(), () -> this.commandPageForward());
+		buttonSet.addButton(0, new Vector2( 32-2, 154+2), new Vector2(215, 246), new Vector2(215, 246), new Vector2(238, 246), new Vector2(18, 10), -1, () -> this.currentPage     >              0, () -> this.commandPageBack());
+		buttonSet.addButton(1, new Vector2(206+2, 154+2), new Vector2(215, 233), new Vector2(215, 233), new Vector2(238, 233), new Vector2(18, 10), -1, () -> this.currentPage + 2 < content.size(), () -> this.commandPageForward());
 	}
 	
 	
@@ -104,15 +100,15 @@ public class ScreenBook extends Screen {
 		buttonSet.update(x, y, mousePosX, mousePosY);
 		for(int i = 0; i < 2; i++){
 			int offset = 118 * i;
-			if(header[i].length() > 0){
-				int w = this.font.width(header[i]) / 2;
-				matrix.drawString(font, header[i], x + 68 - w + offset, y + 16, /*16777215*/ 100000, false);
+			if(content.get(currentPage + i).pageHeader.length() > 0){
+				int w = this.font.width(content.get(currentPage + i).pageHeader) / 2;
+				matrix.drawString(font, content.get(currentPage + i).pageHeader, x + 68 - w + offset, y + 16, /*16777215*/ 100000, false);
 			}
-			if(imageID[i] > -1){
-				matrix.blit(image[i], x + 8+22-8+4 + offset, y + 26, (imageID[i] % 3) * 84, (imageID[i] / 2) * 128, 84, 128); // Background
+			if(content.get(currentPage + i).imageID > -1){
+				matrix.blit(content.get(currentPage + i).imageSource, x + 8+22-8+4 + offset, y + 26, (content.get(currentPage + i).imageID % 3) * 84, (content.get(currentPage + i).imageID / 3) * 128, 84, 128); // Background
 			}
-			for(int k = 0; k < text[i].size(); k++){
-				matrix.drawString(font, text[i].get(k),  x + 16 + offset, y + 32 + 9*k, 0, false);
+			for(int k = 0; k < content.get(currentPage + i).pageBody.size(); k++){
+				matrix.drawString(font, content.get(currentPage + i).pageBody.get(k),  x + 16 + offset, y + 32 + 9*k, 0, false);
 			}
 		}
 		while (buttonSet.next()){
@@ -128,15 +124,8 @@ public class ScreenBook extends Screen {
 	
 	// ---------- ---------- ---------- ----------  COMMAND  ---------- ---------- ---------- ---------- //
 	
-	private void commandPageBack(){
-		currentPage -= 2;
-		loadPages();
-	}
-	
-	private void commandPageForward(){
-		currentPage += 2;
-		loadPages();
-	}
+	private void commandPageBack(   ){ currentPage -= 2; }
+	private void commandPageForward(){ currentPage += 2; }
 	
 	
 	
@@ -150,6 +139,34 @@ public class ScreenBook extends Screen {
 	
 	public void init() {
 		super.init();
+	}
+	
+	/** Checks if mouse is inside a rectangle **/
+	protected boolean mouseRect(int x, int y, int width, int height, double mouseX, double mouseY){
+		if(x < mouseX && mouseX < x + width){
+			return y < mouseY && mouseY < y + height;
+		}
+		return false;
+	}
+	
+	private void loadPages(ItemBook item){
+		for(int i = 0; i < item.getMaxPages(); i++){
+			String header = I18n.get(item.getPage(i).pageHeader);
+			List<String> text = createTextField(I18n.get(item.getPage(i).pageBody.get(0)));
+			ResourceLocation imageSource = item.getPage(i).imageSource;
+			int imageID = item.getPage(i).imageID;
+			if(text.size() > 13){
+				content.add(new ContentPage(header, text.subList(0, 13), imageSource, imageID));
+				for(int line = 13; line < text.size(); line += 13){
+					content.add(new ContentPage("", text.subList(line, line + 13 > text.size() ? text.size() : line + 13), imageSource, -1));
+				}
+			} else {
+				content.add(new ContentPage(header, text, imageSource, imageID));
+			}
+		}
+		if(content.size() % 2 == 1){
+			content.add(new ContentPage("", "", "", -1, ""));
+		}
 		switch (item.getColorID()) {
 			case 0 -> BOOK = new ResourceLocation(Lucky77.MODID, "textures/gui/book_gray.png");
 			case 1 -> BOOK = new ResourceLocation(Lucky77.MODID, "textures/gui/book_red.png");
@@ -161,31 +178,8 @@ public class ScreenBook extends Screen {
 		}
 	}
 	
-	/** Checks if mouse is inside a rectangle **/
-	protected boolean mouseRect(int x, int y, int width, int height, double mouseX, double mouseY){
-		if(x < mouseX && mouseX < x + width){
-			return y < mouseY && mouseY < y + height;
-		}
-		return false;
-	}
-	
-	private void loadPages(){
-		for(int i = 0; i < 2; i++) {
-			if (currentPage + i < item.getMaxPages()) {
-				header[i]  = "" + I18n.get(item.getPage(currentPage + i).pageHeader);
-				text[i]    = createTextField(I18n.get(item.getPage(currentPage + i).pageBody), 21);
-				image[i]   = item.getPage(currentPage + i).imageSource;
-				imageID[i] = item.getPage(currentPage + i).imageID;
-			} else {
-				header[i] = "";
-				text[i]   = new ArrayList<>();
-				text[i].add("");
-				imageID[i] = -1;
-			}
-		}
-	}
-	
-	private List<String> createTextField(String text, int length) {
+	private List<String> createTextField(String text) {
+		int length = 20;
 		List<String> list = new ArrayList<>();
 		char[] charlist = text.toCharArray();
 		if(charlist.length <= length) {
