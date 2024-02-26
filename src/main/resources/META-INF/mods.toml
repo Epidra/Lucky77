@@ -1,10 +1,10 @@
 modLoader="javafml"
-loaderVersion="[45,)" #mandatory
+loaderVersion="[43,)" #mandatory
 license="All rights reserved"
 issueTrackerURL="https://github.com/Epidra/Lucky77/issues"
 [[mods]]
 modId="lucky77"
-version="2.0"
+version="3.0"
 displayName="Lucky77"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/lucky77"
 logoFile="logo.png"
@@ -16,6 +16,6 @@ Core Module to power up my mods
 [[dependencies.lucky77]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.4,1.20)"
+    versionRange="[1.19.2,1.20)"
     ordering="NONE"
     side="BOTH"

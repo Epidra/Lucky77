@@ -5,8 +5,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mod.lucky77.Lucky77;
 import mod.lucky77.item.ItemBook;
+import mod.lucky77.util.Vector2;
+import mod.lucky77.util.button.ButtonSet;
+import mod.lucky77.util.content.ContentPage;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -16,36 +18,46 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 @OnlyIn(Dist.CLIENT)
 public class ScreenBook extends Screen {
-
+    
     private ResourceLocation BOOK = new ResourceLocation(Lucky77.MODID, "textures/gui/book_gray.png");
-    ItemBook item;
-    int currentPage;
-
-    List<String>[] text = new List[]{new ArrayList(), new ArrayList()};
-    String[] header = new String[]{"", ""};
-    ResourceLocation[] image = new ResourceLocation[]{new ResourceLocation(Lucky77.MODID, "textures/gui/book_gray.png"), new ResourceLocation(Lucky77.MODID, "textures/gui/book_gray.png")};
-    int[] imageID = new int[]{0, 0};
-
-
-
-
-
-    //----------------------------------------CONSTRUCTOR----------------------------------------//
-
+    
+    private final List<ContentPage> content   = new ArrayList<>();
+    private final      ButtonSet    buttonSet = new ButtonSet();
+    
+    private int currentPage;
+    
+    
+    
+    
+    
+    // ---------- ---------- ---------- ----------  CONSTRUCTOR  ---------- ---------- ---------- ---------- //
+    
     public ScreenBook(ItemBook item) {
         super(Component.empty());
-        this.item = item;
-        loadPages();
+        loadPages(item);
+        createButtons();
     }
-
-
-
-
-
-    //----------------------------------------INPUT----------------------------------------//
-
+    
+    
+    
+    
+    
+    // ---------- ---------- ---------- ----------  CREATE  ---------- ---------- ---------- ---------- //
+    
+    private void createButtons(){
+        buttonSet.addButton(0, new Vector2( 32-2, 154+2), new Vector2(215, 246), new Vector2(215, 246), new Vector2(238, 246), new Vector2(18, 10), -1, () -> this.currentPage     >              0, () -> this.commandPageBack());
+        buttonSet.addButton(1, new Vector2(206+2, 154+2), new Vector2(215, 233), new Vector2(215, 233), new Vector2(238, 233), new Vector2(18, 10), -1, () -> this.currentPage + 2 < content.size(), () -> this.commandPageForward());
+    }
+    
+    
+    
+    
+    
+    // ---------- ---------- ---------- ----------  INPUT  ---------- ---------- ---------- ---------- //
+    
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (super.keyPressed(keyCode, scanCode, modifiers)) {
             return true;
@@ -67,102 +79,98 @@ public class ScreenBook extends Screen {
             }
         }
     }
-
+    
     public boolean mouseClicked(double mouseX, double mouseY, int mouseButton){
-        if(mouseButton == 0){
-            int x = (this.width  - 256) / 2;
-            int y = (this.height - 180) / 2;
-            if(mouseRect(x +  32, y + 154, 18, 10, mouseX, mouseY)){ commandPageBack();    }
-            if(mouseRect(x + 206, y + 154, 18, 10, mouseX, mouseY)){ commandPageForward(); }
-        }
-        return super.mouseClicked(mouseX, mouseY, mouseButton);
-    }
-
-
-
-
-
-    //----------------------------------------DRAW----------------------------------------//
-
-    public void render(PoseStack matrixStack, int mousePosX, int mousePosY, float partialTick) {
-        this.renderBackground(matrixStack);
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, BOOK);
         int x = (this.width  - 256) / 2;
         int y = (this.height - 180) / 2;
-        this.blit(matrixStack, x, y, 0, 0, 256, 180); // Background
-
-        for(int i = 0; i < 2; i++){
-            int offset = 120 * i;
-            if(header[i].length() > 0){
-                int w = this.font.width(header[i]) / 2;
-                this.font.draw(matrixStack, header[i], x + 68 - w + offset, y + 16, 555555);
-            }
-
-            if(imageID[i] > -1){
-                RenderSystem.setShaderTexture(0, image[i]);
-                this.blit(matrixStack, x + 8 + offset, y + 26, (imageID[i] % 2) * 128, (imageID[i] / 2) * 128, 128, 128); // Background
-            }
-
-            for(int k = 0; k < text[i].size(); k++){
-                this.font.draw(matrixStack, text[i].get(k),  x + 16 + offset, y + 32 + 9*k, 0);
-            }
-        }
-
+        buttonSet.interact(x, y, mouseX, mouseY);
+        return super.mouseClicked(mouseX, mouseY, mouseButton);
+    }
+    
+    
+    
+    
+    
+    // ---------- ---------- ---------- ----------  RENDER  ---------- ---------- ---------- ---------- //
+    
+    public void render(PoseStack matrix, int mousePosX, int mousePosY, float partialTick) {
+        this.renderBackground(matrix);
+        int x = (this.width  - 256) / 2;
+        int y = (this.height - 180) / 2;
         RenderSystem.setShaderTexture(0, BOOK);
-
-        if(currentPage > 0){
-            if(mouseRect(x + 32, y + 154, 18, 10, mousePosX, mousePosY)){
-                this.blit(matrixStack, x + 32, y + 154, 238, 246, 18, 10); // Left Arrow Highlight
-            } else {
-                this.blit(matrixStack, x + 32, y + 154, 215, 246, 18, 10); // Left Arrow
+        blit(matrix, x, y, 0, 0, 256, 180); // Background
+        buttonSet.update(x, y, mousePosX, mousePosY);
+        for(int i = 0; i < 2; i++){
+            int offset = 118 * i;
+            if(content.get(currentPage + i).pageHeader.length() > 0){
+                int w = this.font.width(content.get(currentPage + i).pageHeader) / 2;
+                font.draw(matrix, content.get(currentPage + i).pageHeader, x + 68 - w + offset, y + 16, /*16777215*/ 100000);
+            }
+            if(content.get(currentPage + i).imageID > -1){
+                RenderSystem.setShaderTexture(0, content.get(currentPage + i).imageSource);
+                blit(matrix, x + 8+22-8+4 + offset, y + 26, (content.get(currentPage + i).imageID % 3) * 84, (content.get(currentPage + i).imageID / 3) * 128, 84, 128); // Background
+            }
+            for(int k = 0; k < content.get(currentPage + i).pageBody.size(); k++){
+                font.draw(matrix, content.get(currentPage + i).pageBody.get(k),  x + 16 + offset, y + 32 + 9*k, 0);
             }
         }
-
-        if(currentPage + 2 < item.getMaxPages()){
-            if(mouseRect(x + 206, y + 154, 18, 10, mousePosX, mousePosY)){
-                this.blit(matrixStack, x + 206, y + 154, 238, 233, 18, 10); // Right Arrow Highlight
-            } else {
-                this.blit(matrixStack, x + 206, y + 154, 215, 233, 18, 10); // Right Arrow
-            }
+        RenderSystem.setShaderTexture(0, BOOK);
+        while (buttonSet.next()){
+            if(buttonSet.isVisible()    ){ blit(matrix, x + buttonSet.pos().X, y + buttonSet.pos().Y, buttonSet.map().X,       buttonSet.map().Y,       buttonSet.sizeX(), buttonSet.sizeY()); }
+            if(buttonSet.isHighlighted()){ blit(matrix, x + buttonSet.pos().X, y + buttonSet.pos().Y, buttonSet.highlight().X, buttonSet.highlight().Y, buttonSet.sizeX(), buttonSet.sizeY()); }
         }
-
-        super.render(matrixStack, mousePosX, mousePosY, partialTick);
+        super.render(matrix, mousePosX, mousePosY, partialTick);
     }
-
-
-
-
-
-    //----------------------------------------COMMAND----------------------------------------//
-
-    private void commandPageBack(){
-        if(currentPage > 0){
-            currentPage -= 2;
-            loadPages();
-        }
-    }
-
-    private void commandPageForward(){
-        if(currentPage + 2 < item.getMaxPages()){
-            currentPage += 2;
-            loadPages();
-        }
-    }
-
-
-
-
-
-    //----------------------------------------SUPPORT----------------------------------------//
-
+    
+    
+    
+    
+    
+    // ---------- ---------- ---------- ----------  COMMAND  ---------- ---------- ---------- ---------- //
+    
+    private void commandPageBack(   ){ currentPage -= 2; }
+    private void commandPageForward(){ currentPage += 2; }
+    
+    
+    
+    
+    
+    // ---------- ---------- ---------- ----------  SUPPORT  ---------- ---------- ---------- ---------- //
+    
     public boolean isPauseScreen() {
         return false;
     }
-
+    
     public void init() {
         super.init();
+    }
+    
+    /** Checks if mouse is inside a rectangle **/
+    protected boolean mouseRect(int x, int y, int width, int height, double mouseX, double mouseY){
+        if(x < mouseX && mouseX < x + width){
+            return y < mouseY && mouseY < y + height;
+        }
+        return false;
+    }
+    
+    private void loadPages(ItemBook item){
+        for(int i = 0; i < item.getMaxPages(); i++){
+            String header = I18n.get(item.getPage(i).pageHeader);
+            List<String> text = createTextField(I18n.get(item.getPage(i).pageBody.get(0)));
+            ResourceLocation imageSource = item.getPage(i).imageSource;
+            int imageID = item.getPage(i).imageID;
+            if(text.size() > 13){
+                content.add(new ContentPage(header, text.subList(0, 13), imageSource, imageID));
+                for(int line = 13; line < text.size(); line += 13){
+                    content.add(new ContentPage("", text.subList(line, line + 13 > text.size() ? text.size() : line + 13), imageSource, -1));
+                }
+            } else {
+                content.add(new ContentPage(header, text, imageSource, imageID));
+            }
+        }
+        if(content.size() % 2 == 1){
+            content.add(new ContentPage("", "", "", -1, ""));
+        }
         switch (item.getColorID()) {
             case 0 -> BOOK = new ResourceLocation(Lucky77.MODID, "textures/gui/book_gray.png");
             case 1 -> BOOK = new ResourceLocation(Lucky77.MODID, "textures/gui/book_red.png");
@@ -173,43 +181,21 @@ public class ScreenBook extends Screen {
             case 6 -> BOOK = new ResourceLocation(Lucky77.MODID, "textures/gui/book_violet.png");
         }
     }
-
-    /** Checks if mouse is inside a rectangle **/
-    protected boolean mouseRect(int x, int y, int width, int height, double mouseX, double mouseY){
-        if(x < mouseX && mouseX < x + width){
-            return y < mouseY && mouseY < y + height;
-        }
-        return false;
-    }
-
-    private void loadPages(){
-        for(int i = 0; i < 2; i++) {
-            if (currentPage + i < item.getMaxPages()) {
-                header[i]  = "" + I18n.get(item.getPage(currentPage + i).pageHeader);
-                text[i]    = createTextField(I18n.get(item.getPage(currentPage + i).pageBody), 20);
-                image[i]   = item.getPage(currentPage + i).imageSource;
-                imageID[i] = item.getPage(currentPage + i).imageID;
-            } else {
-                header[i] = "";
-                text[i]   = new ArrayList<>();
-                text[i].add("");
-                imageID[i] = -1;
-            }
-        }
-    }
-
-    private List<String> createTextField(String text, int length) {
+    
+    private List<String> createTextField(String text) {
+        int length = 20;
         List<String> list = new ArrayList<>();
         char[] charlist = text.toCharArray();
         if(charlist.length <= length) {
             list.add(text);
         } else {
             int point_last = 0;
-            while(point_last + length < text.length()) {
-                if(charlist.length > length) {
-                    int point_next = 0;
-                    for(int x = 0; x < length; x++) {
-                        if(charlist[x + point_last] == ' ') point_next = x;
+            while(point_last + 1 /*+ length*/ < text.length()) {
+                int point_next = 0;
+                for(int x = 0; x < length; x++) {
+                    if(point_last + x < charlist.length){
+                        if(x + point_last + 1 == charlist.length) point_next = x+1;
+                        if(charlist[x + point_last] == ' ') point_next = x+1;
                         if(charlist[x + point_last] == '/') {
                             if(charlist[x + 1 + point_last] == 'b') {
                                 charlist[x + point_last] = ' ';
@@ -219,15 +205,14 @@ public class ScreenBook extends Screen {
                             }
                         }
                     }
-                    list.add(new String(charlist, point_last, point_next));
-                    point_last += point_next;
                 }
+                list.add(new String(charlist, point_last, point_next));
+                point_last += point_next;
             }
-            list.add(text.substring(point_last));
         }
         return list;
     }
-
-
-
+    
+    
+    
 }

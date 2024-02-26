@@ -8,7 +8,9 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -29,8 +31,12 @@ public class Lucky77 {
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public Lucky77() {
-        MinecraftForge.EVENT_BUS.register(this);
+        
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+    
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Configuration.spec);
+    
+        MinecraftForge.EVENT_BUS.register(this);
         // BLOCKS.register(bus);
         // ITEMS.register(bus);
     }
