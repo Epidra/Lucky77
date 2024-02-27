@@ -37,7 +37,7 @@ public class Configuration {
 			drowned         = builder.define("Drowned",        false);
 			husk            = builder.define("Husk",           false);
 			stray           = builder.define("Stray",          false);
-			cave_spider     = builder.define("Cave Spider",    false);
+			cave_spider     = builder.define("CaveSpider",     false);
 			creeper         = builder.define("Creeper",        false);
 			enderman        = builder.define("Enderman",       false);
 			giant           = builder.define("Giant",          false);

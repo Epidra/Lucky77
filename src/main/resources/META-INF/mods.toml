@@ -4,7 +4,7 @@ license="All rights reserved"
 issueTrackerURL="https://github.com/Epidra/Lucky77/issues"
 [[mods]]
 modId="lucky77"
-version="3.0"
+version="4.0"
 displayName="Lucky77"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/lucky77"
 logoFile="logo.png"

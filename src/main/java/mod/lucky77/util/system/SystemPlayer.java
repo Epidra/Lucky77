@@ -1,12 +1,25 @@
 package mod.lucky77.util.system;
 
+import mod.lucky77.item.ItemBook;
+import mod.lucky77.screen.ScreenBook;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
 @SuppressWarnings("unused")
-public class SystemInventory {
+public class SystemPlayer {
 	
 	// ...
+	
+	
+	
+	
+	
+	// ---------- ---------- ---------- ----------  SCREEN  ---------- ---------- ---------- ---------- //
+	
+	public static void openBookScreen(ItemBook book){
+		Minecraft.getInstance().setScreen(new ScreenBook(book));
+	}
 	
 	
 	
