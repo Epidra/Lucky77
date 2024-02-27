@@ -1,16 +1,28 @@
 package mod.lucky77.system;
 
+import mod.lucky77.item.ItemBook;
+import mod.lucky77.screen.ScreenBook;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
-public class SystemInventory {
+public class SystemPlayer {
 
     // ...
 
 
 
 
-
+    //----------------------------------------INVENTORY----------------------------------------//
+    
+    public static void openBookScreen(ItemBook book){
+        Minecraft.getInstance().setScreen(new ScreenBook(book));
+    }
+    
+    
+    
+    
+    
     //----------------------------------------INVENTORY----------------------------------------//
 
     public static boolean decreaseInventory(Inventory inv, ItemStack item, int amount){

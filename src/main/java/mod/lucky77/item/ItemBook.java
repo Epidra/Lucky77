@@ -1,8 +1,7 @@
 package mod.lucky77.item;
 
-import mod.lucky77.screen.ScreenBook;
+import mod.lucky77.system.SystemPlayer;
 import mod.lucky77.util.content.ContentPage;
-import net.minecraft.client.Minecraft;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -48,7 +47,7 @@ public class ItemBook extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         if(level.isClientSide()){
-            Minecraft.getInstance().setScreen(new ScreenBook(this));
+            SystemPlayer.openBookScreen(this);
             player.awardStat(Stats.ITEM_USED.get(this));
         }
         return InteractionResultHolder.sidedSuccess(itemstack, level.isClientSide());
